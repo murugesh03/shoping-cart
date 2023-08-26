@@ -8,9 +8,22 @@ import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CardOverflow from '@mui/joy/CardOverflow';
+import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import {
+  decrementProduct,
+  incrementProduct
+} from '../../app/features/productSlice';
 
 export default function CartProductCard(props) {
-  const { thumbnail, brand, title, price, id, handleDeleteItem } = props;
+  const { thumbnail, brand, title, price, id, handleDeleteItem, stock } = props;
+  const dispatch = useDispatch();
+  const hanldeIncrement = (id) => {
+    dispatch(incrementProduct(id));
+  };
+  const handleDecrement = (id) => {
+    dispatch(decrementProduct(id));
+  };
   console.log(props);
   return (
     <Card
@@ -45,6 +58,15 @@ export default function CartProductCard(props) {
           }
         >
           Rs {price}
+        </Typography>
+        <Typography>
+          <Button variant='outlined' onClick={() => handleDecrement(id)}>
+            -
+          </Button>
+          <Typography style={{ margin: '0 10px' }}>{stock}</Typography>
+          <Button variant='outlined' onClick={() => hanldeIncrement(id)}>
+            +
+          </Button>
         </Typography>
       </CardContent>
 
